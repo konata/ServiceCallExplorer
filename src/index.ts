@@ -1,40 +1,58 @@
+import { penetrate } from './SpawnExplorer'
 import {
   instrument,
   vinstrument,
   Predefined,
   StackAll,
   NoStackAll,
-} from './libs/services'
+} from './ServiceCallExplorer'
 
-setImmediate(() => {
-  Java.perform(() => {
-    // instrument(
-    //   {
-    //     content: [
-    //       {
-    //         pattern: /.*query.*/,
-    //         noisy: false,
-    //       },
-    //       {
-    //         pattern: /.*delete.*/,
-    //         noisy: true,
-    //       },
-    //     ],
-    //   },
-    //   console.log.bind(console)
-    // )
+// demonstrates service call usage
+function ServiceCallUsage() {
+  // customize service & pattern
+  instrument(
+    {
+      content: [
+        {
+          pattern: /.*query.*/,
+          noisy: false,
+        },
+        {
+          pattern: /.*delete.*/,
+          noisy: true,
+        },
+      ],
+    },
+    console.log.bind(console)
+  )
 
-    // vinstrument(
-    //   'activity',
-    //   'activity_task',
-    //   'package',
-    //   'notification',
-    //   'alarm',
-    //   'appwidget',
-    //   'appops'
-    // )
+  // instrument all methods inside below services
+  vinstrument(
+    'activity',
+    'activity_task',
+    'package',
+    'notification',
+    'alarm',
+    'appwidget',
+    'appops'
+  )
 
-    // const { appops, ...rst } = Predefined.MaliciousAppMonitor
-    vinstrument('activity')
+  // by utilizing predefined configuration
+  instrument(Predefined.MaliciousAppMonitor)
+
+  // overwritten predefined configurations
+  instrument({
+    ...Predefined.PrivacyMonitor,
+    activity: NoStackAll,
   })
+}
+
+// demonstrate ProcExplorer
+function demonstrateProcExplorer() {
+  penetrate(() => {}, console.error.bind(console))
+}
+
+// entrance
+setImmediate(() => {
+  Java.perform(demonstrateProcExplorer)
 })

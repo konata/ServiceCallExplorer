@@ -103,7 +103,7 @@ export function instrument(
 
     let resolvedMethods = resolveOverloads(it.getClass(), restriction)
 
-    // normalize netsed services inside `ActivityManager` & strip proxy calls
+    // normalize nested services inside `ActivityManager` & strip proxy calls
     if (key == 'activity') {
       const klazz = Java.use(it.getClass().getName())
       const ActivityManagerStubProxy = JObject.getClass.call(klazz.getService())
@@ -182,8 +182,8 @@ export const Predefined = {
   },
 
   /**
-   * 1. widget & shorcut
-   * 2. applciation auto start & background window
+   * 1. widget & shortcut
+   * 2. application auto start & background window
    */
   MaliciousAppMonitor: {
     activity: NoStackAll,
