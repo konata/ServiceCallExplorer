@@ -19,8 +19,6 @@ frida snippet empowers you to instrument all service-call (IPC call through well
 
 ![Sample Instrumentation](./art/service-call.png)
 
----
-
 ## SpawnExplorer
 
 ### Intro
